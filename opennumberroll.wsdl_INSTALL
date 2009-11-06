@@ -13,32 +13,32 @@ You should have received a copy of the GNU Affero General Public License along w
       <xs:import namespace="http://oss.dbc.dk/ns/opennumberroll" schemaLocation="opennumberroll.xsd"/>
     </xs:schema>
   </wsdl:types>
-  <wsdl:message name="searchRequest">
-    <wsdl:part name="parameters" element="types:searchRequest"/>
+  <wsdl:message name="numberRollRequest">
+    <wsdl:part name="parameters" element="types:numberRollRequest"/>
   </wsdl:message>
-  <wsdl:message name="searchResponse">
-    <wsdl:part name="parameters" element="types:searchResponse"/>
+  <wsdl:message name="numberRollResponse">
+    <wsdl:part name="parameters" element="types:numberRollResponse"/>
   </wsdl:message>
-  <wsdl:portType name="osSearchServicePortType">
-    <wsdl:operation name="search">
-      <wsdl:input message="osw:searchRequest"/>
-      <wsdl:output message="osw:searchResponse"/>
+  <wsdl:portType name="osnumberRollServicePortType">
+    <wsdl:operation name="numberRoll">
+      <wsdl:input message="osw:numberRollRequest"/>
+      <wsdl:output message="osw:numberRollResponse"/>
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="osSearchServiceSoapBinding" type="osw:osSearchServicePortType">
+  <wsdl:binding name="osnumberRollServiceSoapBinding" type="osw:osnumberRollServicePortType">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="search">
+    <wsdl:operation name="numberRoll">
       <soap:operation soapAction=""/>
-      <wsdl:input name="searchRequest">
+      <wsdl:input name="numberRollRequest">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="searchResponse">
+      <wsdl:output name="numberRollResponse">
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="osService">
-    <wsdl:port name="osSearchService" binding="osw:osSearchServiceSoapBinding">
+    <wsdl:port name="osnumberRollService" binding="osw:osnumberRollServiceSoapBinding">
       <soap:address location="http://didicas.dbc.dk/opennumberroll"/>
     </wsdl:port>
   </wsdl:service>
