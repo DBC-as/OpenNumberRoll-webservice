@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:nrs="http://oss.dbc.dk/ns/numberroll" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://oss.dbc.dk/ns/numberroll" elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Number Roll Service</xs:documentation>
+		<xs:documentation xml:lang="en">This XML Schema describes the data and structure of data of the Number Roll Service for Open Resource Sharing (ORS).</xs:documentation>
+		<xs:documentation xml:lang="en">This file is part of OpenLibrary.
+Copyright © 2009, Dansk Bibliotekscenter a/s,  Tempovej 7-11, DK-2750 Ballerup, Denmark. CVR: 15149043
+
+OpenLibrary is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+OpenLibrary is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with OpenLibrary.  If not, see http://www.gnu.org/licenses/</xs:documentation>
+	</xs:annotation>
+	<xs:element name="numberRollRequest">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The service request.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="nrs:numberRollName"/>
+				<xs:element ref="nrs:callback" minOccurs="0"/>
+				<xs:element ref="nrs:outputType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="holdingsResponse">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The service response.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="nrs:rollNumber"/>
+				<xs:element ref="nrs:error"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="numberRollName" type="xs:string">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Name of the number Roll.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="rollNumber" type="xs:int">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Roll number.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="callback" type="xs:string">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">If outputType=json.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="error" type="nrs:errorType"/>
+	<xs:element name="outputType" type="nrs:outputTypeType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">E.g. xml, json or php.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="errorType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="service_unavailable"/>
+			<xs:enumeration value="error_in_request"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="outputTypeType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">The types of output that can be returned by the service.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="xml"/>
+			<xs:enumeration value="json"/>
+			<xs:enumeration value="php"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

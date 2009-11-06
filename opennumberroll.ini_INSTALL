@@ -1,0 +1,69 @@
+; inifie for opennumberroll
+
+[setup]
+; servicename
+servicename=opennumberroll
+
+version = 0.1
+
+; wsdl for service
+wsdl = opennumberroll.wsdl
+
+; validate
+;validate[request] = opennumberroll.xsd
+;validate[response] = opennumberroll.xsd
+
+xmldir = ./xml
+
+; logfile for verbose output
+logfile = /tmp/opennumberroll.log
+
+; set verboselevel
+;   WARNING - simple warnings
+;   ERROR   - errors in response
+;   FATAL   - major errors
+;   STAT    - Statístical logging
+;   TIMER   - timer logging
+;   TRACE   - program trace
+;   DEBUG   - debugging info
+;   Z3959   - calls to z3950 services
+;   OCI     - oracle
+verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
+
+; OCI credentials
+numberroll_credentials = user/password@myoracle.server.dk
+
+[rest]
+
+soap_header = <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?><SOAP-ENV:Envelope xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns=&quot;http://oss.dbc.dk/ns/openagency&quot;><SOAP-ENV:Body>
+
+soap_footer = </SOAP-ENV:Body></SOAP-ENV:Envelope>
+
+; REST parameters for SOAPactions
+;
+; use xml.path.to.par notation to solve name-conflicts
+; action[thisSoapAction][foo][] = some.number
+; action[thisSoapAction][bar][] = another.number
+; to build
+; <thisSoapAction>
+;   <foo>
+;     <number>nn</number>
+;   </foo>
+;   <bar>
+;     <number>mm</number>
+;   </bar>
+; </thisSoapAction>
+; from url: action=thisSoapAction&some.number=nn&another.number=mm
+;
+
+
+action[openNumberRollRequest][] = outputType
+action[openNumberRollRequest][] = callback
+action[openNumberRollRequest][] = agencyId
+action[openNumberRollRequest][] = autService
+action[openNumberRollRequest][] = materialType
+
+
+[howru]
+
+
