@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:nrs="http://oss.dbc.dk/ns/numberroll" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://oss.dbc.dk/ns/numberroll" elementFormDefault="qualified">
+<xs:schema xmlns:nrs="http://oss.dbc.dk/ns/opennumberroll" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://oss.dbc.dk/ns/opennumberroll" elementFormDefault="qualified">
 	<xs:annotation>
 		<xs:documentation xml:lang="en">Number Roll Service</xs:documentation>
 		<xs:documentation xml:lang="en">This XML Schema describes the data and structure of data of the Number Roll Service for Open Resource Sharing (ORS).</xs:documentation>
@@ -24,7 +24,7 @@ You should have received a copy of the GNU Affero General Public License along w
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="holdingsResponse">
+	<xs:element name="numberRollResponse">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">The service response.</xs:documentation>
 		</xs:annotation>
