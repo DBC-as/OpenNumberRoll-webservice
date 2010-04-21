@@ -92,6 +92,7 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:enumeration value="error_reaching_database"/>
 			<xs:enumeration value="error_creating_number_roll"/>
 			<xs:enumeration value="unknown_number_roll_name"/>
+			<xs:enumeration value="authentication_error"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="outputTypeType">
