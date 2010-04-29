@@ -1,18 +1,30 @@
 ; inifie for opennumberroll
 
 [setup]
-; servicename
-servicename=opennumberroll
-
 version = 0.1
 
 ; wsdl for service
 wsdl = opennumberroll.wsdl
 
+; in_house_domain may use ?ShowInfo and use create_sample form
+;in_house_domain = .dbc.dk
+
+; set to TRUE to expose the create_sample form
+;show_samples = 1
+
 ; validate
+;validate[soap_request] = soap.xsd
 ;validate[request] = opennumberroll.xsd
 ;validate[response] = opennumberroll.xsd
 
+; soapActions and their corresponding request structure
+; Can be found in the wsdl but is stated here for convenience
+soapAction[numberRoll] = numberRollRequest
+
+; prefixes and namespaces
+xmlns[] = http://oss.dbc.dk/ns/opennumberroll
+
+; path to xml-examples
 xmldir = ./xml
 
 ; logfile for verbose output
@@ -32,6 +44,9 @@ verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
 
 ; OCI credentials
 numberroll_credentials = user/password@myoracle.server.dk
+
+; valid number rolls
+valid_number_roll[] = my_number_roll
 
 
 [aaa]
@@ -54,15 +69,10 @@ numberroll_credentials = user/password@myoracle.server.dk
 ; aaa_ip_rights[group-identifier][ressource][<named ressource 2>] = right to <named ressource 2>
 ;
 ;aaa_ip_rights[dbc][ip_list] = 172.16.0.0-172.31.255.255;193.111.162.0-193.111.162.255
-;aaa_ip_rights[dbc][ressource][opensearch] = 500
+;aaa_ip_rights[dbc][ressource][opennumberroll] = 500
 
 
 [rest]
-
-soap_header = <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?><SOAP-ENV:Envelope xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns=&quot;http://oss.dbc.dk/ns/openagency&quot;><SOAP-ENV:Body>
-
-soap_footer = </SOAP-ENV:Body></SOAP-ENV:Envelope>
-
 ; REST parameters for SOAPactions
 ;
 ; use xml.path.to.par notation to solve name-conflicts
@@ -80,12 +90,9 @@ soap_footer = </SOAP-ENV:Body></SOAP-ENV:Envelope>
 ; from url: action=thisSoapAction&some.number=nn&another.number=mm
 ;
 
-
-action[openNumberRollRequest][] = outputType
-action[openNumberRollRequest][] = callback
-action[openNumberRollRequest][] = agencyId
-action[openNumberRollRequest][] = autService
-action[openNumberRollRequest][] = materialType
+action[numberRoll][] = numberRollName
+action[numberRoll][] = outputType
+action[numberRoll][] = callback
 
 
 [howru]
