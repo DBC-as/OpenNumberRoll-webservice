@@ -33,18 +33,21 @@ class openNumberRoll extends webServiceServer {
       if (in_array($param->numberRollName->_value, $valid_roll)) {
         $oci = new Oci($this->config->get_value("numberroll_credentials","setup"));
         $oci->set_charset("UTF8");
-        $oci->connect();
-        if ($err = $oci->get_error_string()) {
-          $this->verbose->log(FATAL, "OpenNumberRoll:: OCI connect error: " . $err);
+        try { $oci->connect(); }
+        catch (ociException $e) {
+          verbose::log(FATAL, "OpenNumberRoll:: OCI connect error: " . $oci->get_error_string());
           $res->error->_value = "error_reaching_database";
-        } else {
-          $oci->set_query("SELECT " . $param->numberRollName->_value . ".nextval FROM dual");
-          $val = $oci->fetch_into_assoc();
-          if ($nr = $val["NEXTVAL"])
-            $res->rollNumber->_value = $nr;
-          else
-            $res->error->_value = "error_creatingnumber_roll";
         }
+        if (empty($res->error->_value)) 
+          try {
+            $oci->set_query("SELECT " . $param->numberRollName->_value . ".nextval FROM dual");
+            $val = $oci->fetch_into_assoc();
+          } catch (ociException $e) {
+            verbose::log(FATAL, "OpenNumberRoll:: OCI select error: " . $oci->get_error_string());
+            $res->error->_value = "error_creatingnumber_roll";
+          }
+        if (empty($res->error->_value) && ($nr = $val["NEXTVAL"]))
+          $res->rollNumber->_value = $nr;
       } else
         $res->error->_value = "unknown_number_roll_name";
     }
