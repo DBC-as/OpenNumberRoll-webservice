@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://oss.dbc.dk/ns/opennumberroll"><SOAP-ENV:Body>
-<ns1:openNumberRollRequest>
+<ns1:numberRollRequest>
   <ns1:numberRollName>abcdefg</ns1:numberRollName>
-</ns1:openNumberRollRequest>
+</ns1:numberRollRequest>
 </SOAP-ENV:Body></SOAP-ENV:Envelope>

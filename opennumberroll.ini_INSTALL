@@ -1,7 +1,7 @@
 ; inifie for opennumberroll
 
 [setup]
-version = 0.1
+version = 0.2
 
 ; wsdl for service
 wsdl = opennumberroll.wsdl
@@ -41,6 +41,9 @@ logfile = /tmp/opennumberroll.log
 ;   Z3959   - calls to z3950 services
 ;   OCI     - oracle
 verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
+
+; format for automatic timer dump %s is the soap-action used
+dump_timer = opennumberroll(%s)
 
 ; OCI credentials
 numberroll_credentials = user/password@myoracle.server.dk
