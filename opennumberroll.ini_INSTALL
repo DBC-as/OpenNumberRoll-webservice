@@ -1,7 +1,7 @@
 ; inifie for opennumberroll
 
 [setup]
-version = 0.2
+version = 0.3
 
 ; wsdl for service
 wsdl = opennumberroll.wsdl
@@ -40,7 +40,7 @@ logfile = /tmp/opennumberroll.log
 ;   DEBUG   - debugging info
 ;   Z3959   - calls to z3950 services
 ;   OCI     - oracle
-verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
+verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950
 
 ; format for automatic timer dump %s is the soap-action used
 dump_timer = opennumberroll(%s)
@@ -99,5 +99,8 @@ action[numberRoll][] = callback
 
 
 [howru]
+test[] = numberRoll&numberRollName=orderid_numberroll
+preg_match[] = <rollNumber>
+error[] = ERROR - Cannot get a number from orderid_numberroll
 
 
