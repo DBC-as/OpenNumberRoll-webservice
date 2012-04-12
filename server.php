@@ -25,39 +25,59 @@ require_once("OLS_class_lib/oci_class.php");
 
 class openNumberRoll extends webServiceServer {
 
-  function numberRoll($param) {
-    if (!$this->aaa->has_right("opennumberroll", 500))
-      $res->error->_value = "authentication_error";
-    else {
-      $valid_roll = $this->config->get_value("valid_number_roll","setup");
-      if (in_array($param->numberRollName->_value, $valid_roll)) {
-        $oci = new Oci($this->config->get_value("numberroll_credentials","setup"));
-        $oci->set_charset("UTF8");
-        try { $oci->connect(); }
-        catch (ociException $e) {
-          verbose::log(FATAL, "OpenNumberRoll:: OCI connect error: " . $oci->get_error_string());
-          $res->error->_value = "error_reaching_database";
+    function numberRoll($param) {
+        if (!$this->aaa->has_right("opennumberroll", 500))
+            $res->error->_value = "authentication_error";
+        else {
+            $valid_roll = $this->config->get_value("valid_number_roll","setup");
+            if (in_array($param->numberRollName->_value, $valid_roll)) {
+                $oci = new Oci($this->config->get_value("numberroll_credentials","setup"));
+                $oci->set_charset("UTF8");
+                try {
+                    $oci->connect();
+                }
+                catch (ociException $e) {
+                    verbose::log(FATAL, "OpenNumberRoll:: OCI connect error: " . $oci->get_error_string());
+                    $res->error->_value = "error_reaching_database";
+                }
+                if ($res->error->_value) {
+                    unset($oci);
+                    unset($res->error->_value);
+                    $oci = new Oci($this->config->get_value("numberroll_credentials","setup"));
+                    $oci->set_charset("UTF8");
+                    try {
+                        $oci->connect();
+                    }
+                    catch (ociException $e) {
+                        verbose::log(FATAL, "OpenNumberRoll:: OCI connect error #2: " . $oci->get_error_string());
+                        $res->error->_value = "error_reaching_database";
+                    }
+                }
+                if (empty($res->error->_value))
+                    try {
+                        $oci->set_query("SELECT " . $param->numberRollName->_value . ".nextval FROM dual");
+                        $val = $oci->fetch_into_assoc();
+                        if (empty($val["NEXTVAL"])) {
+                            verbose::log(FATAL, "OpenNumberRoll:: Got no number?? error: " . $oci->get_error_string());
+                            $res->error->_value = "error_creatingnumber_roll";
+                        } else {
+                            verbose::log(TRACE, "OpenNumberRoll:: " . $param->numberRollName->_value . " returned number: " . $val["NEXTVAL"]);
+                            $res->rollNumber->_value = $val["NEXTVAL"];
+                        }
+                    } catch (ociException $e) {
+                        verbose::log(FATAL, "OpenNumberRoll:: OCI select error: " . $oci->get_error_string());
+                        $res->error->_value = "error_creatingnumber_roll";
+                    }
+            } else
+                $res->error->_value = "unknown_number_roll_name";
         }
-        if (empty($res->error->_value)) 
-          try {
-            $oci->set_query("SELECT " . $param->numberRollName->_value . ".nextval FROM dual");
-            $val = $oci->fetch_into_assoc();
-          } catch (ociException $e) {
-            verbose::log(FATAL, "OpenNumberRoll:: OCI select error: " . $oci->get_error_string());
-            $res->error->_value = "error_creatingnumber_roll";
-          }
-        if (empty($res->error->_value) && ($nr = $val["NEXTVAL"]))
-          $res->rollNumber->_value = $nr;
-      } else
-        $res->error->_value = "unknown_number_roll_name";
+
+
+        //var_dump($res); var_dump($param); die();
+        $ret->numberRollResponse->_value = $res;
+        return $ret;
+
     }
-    
-
-    //var_dump($res); var_dump($param); die();
-    $ret->numberRollResponse->_value = $res;
-    return $ret;
-
-  }
 
 }
 
